@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Networking &amp; InfoSec Fundamentals Practice Exam</title>
+  <meta name="description" content="A 50-question randomized practice exam covering networking and cybersecurity fundamentals: topologies, OSI/TCP-IP, CIDR & IP addressing, firewalls, load balancers, threats, cryptography, laws, and more.">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="masthead">
+      <div>
+        <h1>Networking &amp; InfoSec Fundamentals</h1>
+        <p>Practice exam · networking · threats &amp; attacks · security tools · cryptography · laws · incident response</p>
+      </div>
+      <span class="badge" id="qcount-badge">50 questions</span>
+    </div>
+
+    <div class="toolbar">
+      <span class="hint">Drawn randomly from a bank of <span id="bank-size">0</span> questions — a fresh 50 every attempt.</span>
+    </div>
+
+    <div class="progressbar">
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="progress-label"><span id="progress-text">0 of 50 answered</span><span></span></div>
+    </div>
+
+    <div class="results" id="results">
+      <p class="score" id="score-text">0 / 50</p>
+      <p class="sub" id="score-sub">Review your answers below, or start a new randomized exam.</p>
+      <div class="breakdown" id="breakdown"></div>
+    </div>
+
+    <div id="quiz"></div>
+
+    <div class="footer-bar">
+      <span id="footer-hint">Answer every question, then submit to see your score and explanations.</span>
+      <div style="display:flex;gap:10px">
+        <button class="ghost" id="new-exam-btn" hidden>New random exam</button>
+        <button id="submit-btn" disabled>Submit exam</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    Practice material for the Certiport IT Specialist &ndash; Cybersecurity exam. Not affiliated with or endorsed by Certiport/Pearson VUE.
+  </footer>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
