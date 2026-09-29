@@ -86,21 +86,12 @@ function renderQuestionView() {
 
   const reviewInput = document.getElementById('review-box');
   const checkedInput = document.getElementById('checked-box');
-  const checkedPill = document.getElementById('checked-pill');
 
   reviewInput.checked = q.forReview;
   checkedInput.checked = q.checked;
-  checkedInput.disabled = q.forReview;
-  checkedPill.classList.toggle('disabled', q.forReview);
 
   reviewInput.onchange = () => {
     q.forReview = reviewInput.checked;
-    if (q.forReview) {
-      q.checked = false;
-      checkedInput.checked = false;
-    }
-    checkedInput.disabled = q.forReview;
-    checkedPill.classList.toggle('disabled', q.forReview);
     updateProgressMeta();
   };
 
@@ -152,6 +143,7 @@ document.getElementById('to-summary-btn').addEventListener('click', goToSummary)
 
 function statusForQuestion(q) {
   if (q.forReview) {
+    if (q.checked) return { label: 'Flagged · Checked also ticked (-2)', cls: 'warn' };
     if (q.selected === null) return { label: 'Flagged · blank (safe)', cls: 'flag' };
     if (q.changeCount > 0) return { label: `Flagged · changed ${q.changeCount}×`, cls: 'warn' };
     return { label: 'Flagged · answered', cls: 'flag' };
@@ -210,6 +202,7 @@ function scoreQuestion(q) {
 
   if (q.forReview) {
     penalty = q.selected === null ? 0 : -q.changeCount;
+    if (q.checked) penalty -= 2;
   } else if (!q.checked) {
     penalty = -2;
   } else if (q.selected === null) {

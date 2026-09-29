@@ -134,7 +134,6 @@ footer.site-footer a{color:var(--accent)}
 .check-pill{display:flex;align-items:flex-start;gap:10px;font-size:.85rem;line-height:1.4;cursor:pointer;color:var(--ink)}
 .check-pill input{margin-top:3px;accent-color:var(--accent);flex-shrink:0}
 .check-pill b{color:var(--accent)}
-.check-pill.disabled{opacity:.4;cursor:not-allowed}
 
 /* ───────────── Summary page ───────────── */
 .section-title{font-family:"IBM Plex Serif",Georgia,serif;font-size:1.3rem;font-weight:600;margin:4px 0 6px}
