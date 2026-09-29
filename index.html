@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Networking &amp; InfoSec Fundamentals Practice Exam</title>
-  <meta name="description" content="A 50-question randomized practice exam covering networking and cybersecurity fundamentals: topologies, OSI/TCP-IP, CIDR & IP addressing, firewalls, load balancers, threats, cryptography, laws, and more.">
+  <meta name="description" content="A 50-question randomized, one-page-per-question practice exam covering networking and cybersecurity fundamentals, with a review-flag and confirm scoring system.">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -19,29 +19,87 @@
     </div>
 
     <div class="toolbar">
-      <span class="hint">Drawn randomly from a bank of <span id="bank-size">0</span> questions — a fresh 50 every attempt.</span>
+      <span class="hint">Drawn randomly from a bank of <span id="bank-size">0</span> questions — a fresh 50 every attempt. Each question is worth 5 points — see the rules below.</span>
     </div>
 
-    <div class="progressbar">
-      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-      <div class="progress-label"><span id="progress-text">0 of 50 answered</span><span></span></div>
-    </div>
-
-    <div class="results" id="results">
-      <p class="score" id="score-text">0 / 50</p>
-      <p class="sub" id="score-sub">Review your answers below, or start a new randomized exam.</p>
-      <div class="breakdown" id="breakdown"></div>
-    </div>
-
-    <div id="quiz"></div>
-
-    <div class="footer-bar">
-      <span id="footer-hint">Answer every question, then submit to see your score and explanations.</span>
-      <div style="display:flex;gap:10px">
-        <button class="ghost" id="new-exam-btn" hidden>New random exam</button>
-        <button id="submit-btn" disabled>Submit exam</button>
+    <details class="rules">
+      <summary>How scoring works</summary>
+      <div class="rules-body">
+        <p>Each question is worth <b>5 points</b> for a correct final answer (0 if wrong or blank). On top of that, how you handle each question can add a penalty:</p>
+        <table class="rules-table">
+          <tr><td>Marked <b>For Review</b>, left blank</td><td class="pen ok">0</td></tr>
+          <tr><td>Marked <b>For Review</b>, answered, never changed</td><td class="pen ok">0</td></tr>
+          <tr><td>Marked <b>For Review</b>, answered, changed N times</td><td class="pen bad">&minus;N</td></tr>
+          <tr><td>Not flagged, <b>Checked</b> left unticked</td><td class="pen bad">&minus;2</td></tr>
+          <tr><td>Not flagged, Checked ticked, left blank</td><td class="pen bad">&minus;5</td></tr>
+          <tr><td>Not flagged, Checked ticked, answered, never changed</td><td class="pen ok">0</td></tr>
+          <tr><td>Not flagged, Checked ticked, answered, changed N times</td><td class="pen bad">&minus;N</td></tr>
+        </table>
+        <p class="rules-foot">50 questions × 5 points = 250 possible. <b>175 points (70%) is a pass.</b> Nothing is scored until you press Submit on the summary page — you can revisit and change any question before then.</p>
       </div>
-    </div>
+    </details>
+
+    <!-- ───────────── Question view (one question per "page") ───────────── -->
+    <section id="view-question">
+      <div class="progressbar">
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="progress-label"><span id="progress-text">Question 1 of 50</span><span id="progress-meta"></span></div>
+      </div>
+
+      <div class="q" id="question-card">
+        <div class="q-head">
+          <span class="q-num" id="q-num">Q1</span>
+          <span class="q-domain" id="q-domain">DOMAIN</span>
+        </div>
+        <p class="q-text" id="q-text">Question text</p>
+        <div class="opts" id="q-opts"></div>
+
+        <div class="q-controls">
+          <label class="check-pill" id="review-pill">
+            <input type="checkbox" id="review-box">
+            <span>Mark <b>For Review</b> — no penalty for changing your mind</span>
+          </label>
+          <label class="check-pill" id="checked-pill">
+            <input type="checkbox" id="checked-box">
+            <span><b>Checked</b> — I've confirmed this is my answer</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="footer-bar">
+        <span class="hint" id="q-hint">Select an answer, tick Checked (or flag For Review), then continue.</span>
+        <div style="display:flex;gap:10px">
+          <button class="ghost" id="to-summary-btn" hidden>Back to summary</button>
+          <button id="next-btn">Next</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────── Summary / review page ───────────── -->
+    <section id="view-summary" hidden>
+      <h2 class="section-title">Review before you submit</h2>
+      <p class="hint">Check for anything you forgot to confirm or forgot to uncheck. Click any row to jump back and fix it — nothing is scored yet.</p>
+      <div class="summary-stats" id="summary-stats"></div>
+      <div class="summary-grid" id="summary-grid"></div>
+      <div class="footer-bar">
+        <span class="hint">Submitting will score all 50 questions using the rules above.</span>
+        <button id="submit-btn">Submit exam</button>
+      </div>
+    </section>
+
+    <!-- ───────────── Results page ───────────── -->
+    <section id="view-results" hidden>
+      <div class="results show">
+        <p class="score" id="score-text">0 / 250</p>
+        <p class="sub" id="score-sub"></p>
+        <div class="breakdown" id="breakdown"></div>
+      </div>
+      <div id="results-list"></div>
+      <div class="footer-bar">
+        <span class="hint">Green = correct. Red = incorrect. Penalty notes explain any points lost for process.</span>
+        <button id="new-exam-btn">New random exam</button>
+      </div>
+    </section>
   </div>
 
   <footer class="site-footer">
